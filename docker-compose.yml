@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  web:
+    image: php:8.2-apache
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    volumes:
+      - ./html:/var/www/html
+    command: >
+      bash -c "docker-php-ext-install mysqli pdo pdo_mysql && apache2-foreground"
+  db:
+    image: mysql:8.3.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: prados_blog
+      MYSQL_USER: prados
+      MYSQL_PASSWORD: prados
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./my.cnf:/my.cnf
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
