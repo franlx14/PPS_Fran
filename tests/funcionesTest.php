@@ -9,7 +9,7 @@ class funcionesTest extends TestCase
      */
     public function testValidarUsuario($input, $expected)
     {
-        $this->assertEquals($expected, validarusuario($input));
+        $this->assertEquals($expected, Funciones::validarusuario($input));
     }
 
     public function usuarioProvider()
