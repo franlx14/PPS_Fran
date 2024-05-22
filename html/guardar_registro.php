@@ -3,27 +3,20 @@ session_start();
 require_once './conexion_bd.php';
 
 // Función para validar usuario
-function validarusuario($usuario) {
-    // Normalizar el usuario (eliminar espacios y convertir a mayúsculas)
-    $usuario = strtoupper(trim($usuario));
-    
-    // Verificar el formato del usuario (debe tener 8 dígitos seguidos de una letra)
-    if (!preg_match('/^[0-9]{8}[A-Z]$/', $usuario)) {
-        return false;
+    require_once 'funciones.php';
+
+    // Definir el usuario que quieres validar
+    $usuario = '12345678A';  // Reemplaza esto con el usuario que quieres validar
+
+    // Llamar a la función validarusuario de la clase UsuarioValidator y obtener el resultado
+    $esValido = Funciones::validarusuario($usuario);
+
+    // Mostrar el resultado
+    if ($esValido) {
+        echo "El usuario $usuario es válido.";
+    } else {
+        echo "El usuario $usuario no es válido.";
     }
-    
-    // Extraer el número y la letra del usuario
-    $numero = substr($usuario, 0, 8);
-    $letra = substr($usuario, 8);
-    
-    // Calcular la letra esperada para el número de usuario
-    $letrasValidas = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    $indice = $numero % 23;
-    $letraEsperada = $letrasValidas[$indice];
-    
-    // Comparar la letra esperada con la letra proporcionada
-    return ($letra === $letraEsperada);
-}
 
 // Conexión a la base de datos
 $conexion = mysqli_connect($db_hostname, $db_username, $db_password, $db_database);
