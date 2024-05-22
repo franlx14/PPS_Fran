@@ -2,7 +2,7 @@
 require_once '/home/runner/work/PPS_Fran/PPS_Fran/html/funciones.php';
 use PHPUnit\Framework\TestCase;
 
-class FuncionesTest extends TestCase
+class funcionesTest extends TestCase
 {
     /**
      * @dataProvider usuarioProvider
