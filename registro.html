@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+</head>
+<body align="center">
+    <h2 style="color: blue; font-size: 38px;">Registro de Usuario/a</h2>
+    <form action="guardar_registro.php" method="POST" enctype="multipart/form-data" style="background-color: wheat; border-radius: 10px;">
+        <br><br>
+        <label for="usuario">DNI:</label><br>
+        <input type="text" id="usuario" name="usuario" maxlength="26" required><br><br>
+        
+        <label for="passwd">Contraseña:</label><br>
+        <input type="password" id="passwd" name="passwd" required><br><br>
+        
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" maxlength="200" required><br><br>
+        
+        <label for="correo">Correo electrónico:</label><br>
+        <input type="email" id="correo" name="correo" maxlength="200" required><br><br>
+        
+        <label for="foto">Foto:</label><br>
+        <input type="file" id="foto" name="foto" accept="image/*" required><br><br>
+        
+        <input type="submit" value="Registrarse">
+        <br><br>
+    </form>
+</body>
+</html>

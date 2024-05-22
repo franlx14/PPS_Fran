@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="./estilos.css">
+</head>
+<body class="body3">
+    
+    <form action="guardar_comentario.php" method="post" style="background-color: wheat; border-radius: 20px; padding-left: 4%;">
+        <br><h2>Insertar un Comentario</h2>
+                
+        <label for="comentario">Comentario:</label><br>
+        <textarea id="comentario" name="comentario" required></textarea><br><br>
+        
+        <label for="color">Color:</label><br>
+        <input type="color" id="color" name="color" required><br><br>
+        
+        <input type="submit" value="GUARDAR">
+        <br><br>
+    </form>
+</body>
+</html>
