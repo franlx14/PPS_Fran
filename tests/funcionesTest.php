@@ -1,5 +1,5 @@
 <?php
-require_once '/home/runner/work/PPS_Fran/html/funciones.php';
+require_once '/home/runner/work/pps_fran/pps_fran/html/funciones.php';
 use PHPUnit\Framework\TestCase;
 
 class funcionesTest extends TestCase
