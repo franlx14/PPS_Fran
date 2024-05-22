@@ -1,25 +1,51 @@
-name: Run PHPUnit tests
+name: Run PHPUnit Tests
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
+  run_phpunit_tests:
+    name: Run PHPUnit Tests
+    runs-on: ubuntu-20.04
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'  # Puedes especificar la versión de PHP que necesitas
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
 
-    - name: Install dependencies
-      run: composer install --no-progress --no-suggest --prefer-dist
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-php-
+          
+      - name: Setup PHP with required extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: imagick, swoole
+    
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
-    - name: Run tests
-      run: vendor/bin/phpunit tests
+      - name: Install PHPUnit
+        run: composer require --dev phpunit/phpunit
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit tests
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-20.04
+    needs: run_phpunit_tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
