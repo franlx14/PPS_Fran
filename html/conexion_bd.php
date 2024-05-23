@@ -1,10 +1,6 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-// Retrieve database credentials from environment variables
-$db_hostname = getenv('DB_HOSTNAME');
-$db_database = getenv('DB_DATABASE');
-$db_username = getenv('DB_USERNAME');
-$db_password = getenv('DB_PASSWORD');
+    $db_hostname = 'localhost';
+    $db_database = 'id22211021_proyectopps';
+    $db_username = 'id22211021_pradospps';
+    $db_password = '@Pekee140802';
 ?>
