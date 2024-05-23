@@ -62,7 +62,7 @@ jobs:
       - name: Install FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.2.0
         with:
-          server: ftp://files.000webhost.com
+          server: files.000webhost.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./  # Directorio local a subir, cambiar según sea necesario
