@@ -68,12 +68,17 @@ jobs:
           local-dir: ./
           server-dir: /public_html/
           log-level: verbose  # Increase log level to verbose
-          protocol: ftps  # Use FTPS instead of SFTP
+          dangerous-clean-slate: true  # Ensure the remote directory is cleaned before upload
+          exclude: |
+            **/.git*
+            **/.git*/**
+            node_modules/**
+            **/node_modules/**
 
       - name: Retry FTP Deploy
         run: |
           for i in {1..5}; do
             if [ $i -gt 1 ]; then echo "Retrying ($i/5)..."; fi
-            npx ftp-deploy --server="files.000webhost.com" --username="${{ secrets.FTP_USERNAME }}" --password="${{ secrets.FTP_PASSWORD }}" --local-dir="./" --server-dir="/public_html/" --protocol=ftps && break
+            npx ftp-deploy --server="files.000webhost.com" --username="${{ secrets.FTP_USERNAME }}" --password="${{ secrets.FTP_PASSWORD }}" --local-dir="./" --server-dir="/public_html/" --protocol=ftps --dangerous-clean-slate && break
             sleep 10
           done
