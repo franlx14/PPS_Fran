@@ -28,6 +28,8 @@ jobs:
             **/.git*/**
             node_modules/**
             **/node_modules/**
+          before-deploy: |
+            lftp -c "open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER; glob -a rm -r *"
 
   run_phpunit_tests:
     name: Run PHPUnit Tests
@@ -75,4 +77,4 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
