@@ -39,7 +39,7 @@
         <table width="100%" style="background-color: #F1C40F; margin-top:2%; margin-buttom: 2%; border-radius: 10px;">
             <tr>
                 <td width="40%"><img src="./materiales/icono.png" alt="Icon_Blog" width="45%" /></td>
-                <td align="left"><h2>Prado's Blog con ELOY</h2></td>
+                <td align="left"><h2>Prado's Blog</h2></td>
             </tr>
         </table>
         <br>
@@ -108,6 +108,10 @@
                     <tr>
                         <td align="center"><img src="./materiales/correo.png" alt="Correo" width="58%" /></td>
                         <td><p>Correo: ' . $datos['correo'] . '</p></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><img src="./materiales/contrasena.png" alt="Correo" width="58%" /></td>
+                        <td><button onclick="cargarPagina(\'cambiar_contrasena.php\')" style="background-color: transparent;border: 0px; font-size: 18px; color: yellow;">Cambiar Contraseña</button></td>
                     </tr>
                 </table>';
             }
