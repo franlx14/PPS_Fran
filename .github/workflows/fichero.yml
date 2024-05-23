@@ -68,11 +68,14 @@ jobs:
           local-dir: ./
           server-dir: /public_html/
           log-level: verbose  # Increase log level to verbose
+          protocol: sftp  # Use SFTP instead of FTP
+          passive: true  # Set FTP mode to passive
+          timeout: 60000  # Increase timeout to 60 seconds
 
       - name: Retry FTP Deploy
         run: |
           for i in {1..5}; do
             if [ $i -gt 1 ]; then echo "Retrying ($i/5)..."; fi
-            npx ftp-deploy --server="files.000webhost.com" --username="${{ secrets.FTP_USERNAME }}" --password="${{ secrets.FTP_PASSWORD }}" --local-dir="./" --server-dir="/public_html/" && break
+            npx ftp-deploy --server="files.000webhost.com" --username="${{ secrets.FTP_USERNAME }}" --password="${{ secrets.FTP_PASSWORD }}" --local-dir="./" --server-dir="/public_html/" --protocol=sftp --timeout=60000 --passive=true && break
             sleep 10
           done
