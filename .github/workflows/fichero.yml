@@ -1,4 +1,4 @@
-name: Deploy, Diagnose, and Test
+name: Deploy, PHPUnit Tests, and SonarCloud Analysis
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to Server
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,29 +29,7 @@ jobs:
             node_modules/**
             **/node_modules/**
 
-      - name: Verify deployment
-        run: |
-          curl -I https://tu-sitio-web.com/index.php  # Reemplaza con la URL de tu sitio web
-          curl -I https://tu-sitio-web.com/ruta-a-un-archivo.php  # Reemplaza con la URL de un archivo PHP específico
-
-  diagnose:
-    name: Diagnose PHP issues
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: List directory contents
-        run: ls -al
-
-      - name: Display PHP version
-        run: php -v
-
-      - name: Display PHP configuration
-        run: php -i
-
-  test:
+  run_phpunit_tests:
     name: Run PHPUnit Tests
     runs-on: ubuntu-20.04
     needs: deploy
@@ -83,3 +61,18 @@ jobs:
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit tests
+
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: run_phpunit_tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
