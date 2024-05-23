@@ -65,5 +65,14 @@ jobs:
           server: files.000webhost.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./  # Directorio local a subir, cambiar según sea necesario
-          server-dir: /public_html/  # Directorio en el servidor, cambiar según sea necesario
+          local-dir: ./
+          server-dir: /public_html/
+          log-level: verbose  # Increase log level to verbose
+
+      - name: Retry FTP Deploy
+        run: |
+          for i in {1..5}; do
+            if [ $i -gt 1 ]; then echo "Retrying ($i/5)..."; fi
+            npx ftp-deploy --server="files.000webhost.com" --username="${{ secrets.FTP_USERNAME }}" --password="${{ secrets.FTP_PASSWORD }}" --local-dir="./" --server-dir="/public_html/" && break
+            sleep 10
+          done
