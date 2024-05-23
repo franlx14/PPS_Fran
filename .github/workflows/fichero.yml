@@ -49,3 +49,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@4.2.0
+      with:
+        ftp-server: files.000webhost.com
+        ftp-username: ${{ secrets.FTP_USERNAME }}
+        ftp-password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./  # Directorio local a subir, cambiar según sea necesario
+        server-dir: /public_html/  # Directorio en el servidor, cambiar según sea necesario
