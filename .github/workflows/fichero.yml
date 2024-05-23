@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
@@ -37,30 +37,33 @@ jobs:
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit tests
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Install FTP-Deploy-Action
-      uses: SamKirkland/FTP-Deploy-Action@4.2.0
-      with:
-        ftp-server: ftp://files.000webhost.com
-        ftp-username: ${{ secrets.FTP_USERNAME }}
-        ftp-password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./  # Directorio local a subir, cambiar según sea necesario
-        server-dir: /public_html/  # Directorio en el servidor, cambiar según sea necesario
+      - name: Install FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@4.2.0
+        with:
+          ftp-server: ftp://files.000webhost.com
+          ftp-username: ${{ secrets.FTP_USERNAME }}
+          ftp-password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./  # Directorio local a subir, cambiar según sea necesario
+          server-dir: /public_html/  # Directorio en el servidor, cambiar según sea necesario
