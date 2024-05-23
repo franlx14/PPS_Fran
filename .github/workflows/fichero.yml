@@ -29,7 +29,7 @@ jobs:
             node_modules/**
             **/node_modules/**
           before-deploy: |
-            lftp -c "open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER; glob -a rm -r *"
+            lftp -c "open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER; mkdir -p /public_html; rm -r /public_html/*"
 
   run_phpunit_tests:
     name: Run PHPUnit Tests
