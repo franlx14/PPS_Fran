@@ -1,4 +1,4 @@
-name: Run PHPUnit Tests
+name: Run PHPUnit Tests and Deploy
 
 on:
   push:
@@ -16,19 +16,19 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
-      - name: Cache Composer packages 
+      - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-php-
-          
+
       - name: Setup PHP with required extensions
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-    
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
@@ -45,7 +45,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Shallow clones should be disabled for better relevancy of analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -58,6 +58,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: List local files
+        run: ls -R ./
+
+      - name: Debug GitHub workspace
+        run: |
+          echo "Workspace path: $GITHUB_WORKSPACE"
+          ls -la $GITHUB_WORKSPACE
 
       - name: Install FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.2.0
