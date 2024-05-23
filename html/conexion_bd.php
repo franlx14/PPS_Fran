@@ -1,6 +1,6 @@
 <?php
-    $db_hostname = 'db';
-    $db_database = 'prados_blog';
-    $db_username = 'root';
-    $db_password = 'root_password';
+    $db_hostname = 'localhost';
+    $db_database = 'id22211021_proyectopps';
+    $db_username = 'id22211021_pradospps';
+    $db_password = '@Pekee140802';
 ?>
