@@ -110,10 +110,6 @@ error_reporting(E_ALL); ini_set('display_errors', 1); ?>
                         <td align="center"><img src="./materiales/correo.png" alt="Correo" width="58%" /></td>
                         <td><p>Correo: ' . $datos['correo'] . '</p></td>
                     </tr>
-                    <tr>
-                        <td align="center"><img src="./materiales/contrasena.png" alt="Correo" width="58%" /></td>
-                        <td><button onclick="cargarPagina(\'cambiar_contrasena.php\')" style="background-color: transparent;border: 0px; font-size: 18px; color: yellow;">Cambiar Contraseña</button></td>
-                    </tr>
                 </table>';
             }
             ?>
