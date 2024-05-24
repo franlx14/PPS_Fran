@@ -1,6 +1,8 @@
 <?php
-    $db_hostname = 'localhost';
-    $db_database = 'id22211021_proyectopps';
-    $db_username = 'id22211021_pradospps';
-    $db_password = '@Pekee140802';
+    $config = include('config.php');
+
+    $db_hostname = $config['hostname'];
+    $db_database = $config['database'];
+    $db_username = $config['username'];
+    $db_password = $config['password'];
 ?>
