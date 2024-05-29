@@ -1,4 +1,4 @@
-name: Deploy, PHPUnit Tests, and SonarCloud Analysis
+name: PHPUnit Tests, and SonarCloud Analysis, Deploy
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
       - main
 
 jobs:
-
   run_phpunit_tests:
     name: Run PHPUnit Tests
     runs-on: ubuntu-20.04
