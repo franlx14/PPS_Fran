@@ -6,39 +6,6 @@ on:
       - main
 
 jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Agregar comando para listar el contenido del directorio local antes del deploy
-      - name: List local files before deploy
-        run: ls -R ./
-
-      - name: Install FTP-Deploy-Action
-        uses: SamKirkland/FTP-Deploy-Action@4.2.0
-        with:
-          server: files.000webhost.com
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: /public_html/
-          log-level: verbose
-          exclude: |
-            **/.git*
-            **/.git*/**
-            node_modules/**
-            **/node_modules/**
-          before-deploy: |
-            # Eliminar archivos y directorios en el servidor remoto excepto .htaccess
-            lftp -e "set net:timeout 10; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER; \
-            mirror --reverse --delete --exclude .htaccess ./ /public_html/" -p 22
-
-      # Agregar comando para listar el contenido del directorio local después del deploy
-      - name: List local files after deploy
-        run: ls -R ./
 
   run_phpunit_tests:
     name: Run PHPUnit Tests
@@ -87,3 +54,37 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Agregar comando para listar el contenido del directorio local antes del deploy
+      - name: List local files before deploy
+        run: ls -R ./
+
+      - name: Install FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@4.2.0
+        with:
+          server: files.000webhost.com
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /public_html/
+          log-level: verbose
+          exclude: |
+            **/.git*
+            **/.git*/**
+            node_modules/**
+            **/node_modules/**
+          before-deploy: |
+            # Eliminar archivos y directorios en el servidor remoto excepto .htaccess
+            lftp -e "set net:timeout 10; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER; \
+            mirror --reverse --delete --exclude .htaccess ./ /public_html/" -p 22
+
+      # Agregar comando para listar el contenido del directorio local después del deploy
+      - name: List local files after deploy
+        run: ls -R ./
